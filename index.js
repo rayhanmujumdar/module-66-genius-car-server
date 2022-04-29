@@ -122,6 +122,9 @@ run().catch(console.dir)
 app.get('/',(req,res) => {
     res.send('genius car service is starting')
 })
+app.get('/heroku',(req,res) => {
+    res.send('heroku all is ok')
+})
 
 app.listen(port, () => {
     console.log('Listening to port' + port)
