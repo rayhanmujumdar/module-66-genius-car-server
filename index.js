@@ -101,7 +101,6 @@ const run = async () => {
         app.get('/order', verifyToken, async (req, res) => {
             const decoded = req?.decoded?.email
             const email = req.query.email
-            console.log(decoded)
             if(decoded === email){
                 const query = {email}
                 const cursor = orderCollection.find(query)
@@ -120,6 +119,11 @@ const run = async () => {
 
 run().catch(console.dir)
 
+app.get('/',(req,res) => {
+    res.send('genius car service is starting')
+})
+
 app.listen(port, () => {
     console.log('Listening to port' + port)
 })
+
