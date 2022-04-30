@@ -23,13 +23,14 @@ const client = new MongoClient(uri, {
 
 // middleware
 const verifyToken = (req, res, next) => {
-    const AuthHeader = req?.headers?.authorization
+    const AuthHeader = req.headers.authorization
     if(!AuthHeader){
         return res.send({message: 'unauthorized access'})
     }
     const token = AuthHeader?.split(' ')[1]
     jwt.verify(token,process.env.DB_ACCESS_TOKEN,(err,decoded) => {
         if(err){
+            console.log(err)
             return res.status(403).send({message: 'forbidden access'});
         }
         req.decoded = decoded
@@ -99,7 +100,7 @@ const run = async () => {
 
         //get the order collection
         app.get('/order', verifyToken, async (req, res) => {
-            const decoded = req?.decoded?.email
+            const decoded = req.decoded.email
             const email = req.query.email
             if(decoded === email){
                 const query = {email}
@@ -121,9 +122,6 @@ run().catch(console.dir)
 
 app.get('/',(req,res) => {
     res.send('genius car service is starting')
-})
-app.get('/heroku',(req,res) => {
-    res.send('heroku all is ok')
 })
 
 app.listen(port, () => {
